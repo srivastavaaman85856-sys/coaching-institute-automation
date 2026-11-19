@@ -1,0 +1,359 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Coaching Institute Admission Enquiry",
+        "formDescription": "Please fill in your details to receive information about our courses.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Student Name"
+            },
+            {
+              "fieldLabel": "Phone Number "
+            },
+            {
+              "fieldLabel": "Email Address",
+              "fieldType": "email"
+            },
+            {
+              "fieldLabel": "Course Interested In",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "python & data science"
+                  },
+                  {
+                    "option": "Artificial intelligence"
+                  },
+                  {
+                    "option": "web development"
+                  },
+                  {
+                    "option": "full stack development"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "message",
+              "fieldType": "textarea"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.6,
+      "position": [
+        0,
+        0
+      ],
+      "id": "0b4c174e-e42d-4ac4-86f6-142357604204",
+      "name": "On form submission",
+      "webhookId": "316f9d09-5d89-4b7d-a802-86de69256f59"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1VNttZTzseJVotN2hLKo98hHZNnMn0EyPvttcS4ksQvo",
+          "mode": "list",
+          "cachedResultName": "Coaching Institute Lead CRM",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1VNttZTzseJVotN2hLKo98hHZNnMn0EyPvttcS4ksQvo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1VNttZTzseJVotN2hLKo98hHZNnMn0EyPvttcS4ksQvo/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Student Name ": "={{$json[\"Student Name\"]}}",
+            "Phone Number": "={{$json[\"Phone Number \"]}}",
+            "Email Address": "={{$json[\"Email Address\"]}}",
+            "Course intrested In": "={{$json[\"Course Interested In\"]}}",
+            "Message": "={{$json[\"message\"]}}",
+            "Submitted At": "={{$json[\"submittedAt\"]}}",
+            "Form Mode": "={{$json[\"formMode\"]}}",
+            "Lead Status": "New"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Student Name ",
+              "displayName": "Student Name ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Phone Number",
+              "displayName": "Phone Number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email Address",
+              "displayName": "Email Address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Course intrested In",
+              "displayName": "Course intrested In",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Message",
+              "displayName": "Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Submitted At",
+              "displayName": "Submitted At",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Form Mode",
+              "displayName": "Form Mode",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Lead Status",
+              "displayName": "Lead Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Total Leads",
+              "displayName": "Total Leads",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        224,
+        0
+      ],
+      "id": "9558c74c-b985-4600-a47b-566a5abaf789",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "qKimAWWYEanPCuu7",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "srivastavaaman.85856@gmail.com",
+        "subject": "New Student Admission Enquiry Received",
+        "emailType": "text",
+        "message": "=Hello Counsellor,\n\nA new student enquiry has been received.\n\nStudent Name: {{ $('On form submission').first().json[\"Student Name\"] }}\n\nPhone Number: {{ $('On form submission').first().json[\"Phone Number \"] }}\n\nEmail: {{ $('On form submission').first().json[\"Email Address\"] }}\n\nCourse: {{ $('On form submission').first().json[\"Course Interested In\"] }}\n\nMessage: {{ $('On form submission').first().json[\"message\"] }}\n\nPlease contact the student for further assistance.\n\nRegards,\nAdmission Automation System",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        448,
+        0
+      ],
+      "id": "13bfd6d7-a0f8-4a58-a04f-311172298e98",
+      "name": "Send a message",
+      "webhookId": "4b8cb158-c653-4b38-a4b1-ba8287f7e042",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "AmkmT3WZ9CQ1CgS9",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('On form submission').first().json[\"Email Address\"] }}",
+        "subject": "Thank You for Your Course Enquiry!",
+        "emailType": "text",
+        "message": "=Hello {{ $('On form submission').first().json[\"Student Name\"] }},  Thank you for contacting us!  We have successfully received your enquiry.  Here are your enquiry details:  Student Name: {{ $('On form submission').first().json[\"Student Name\"] }}  Course Interested In: {{ $('On form submission').first().json[\"Course Interested In\"] }}  Your enquiry is important to us. Our counsellor will contact you shortly to provide more information about the course.  Thank you for your interest!  Regards, Admissions Team Coaching Institute",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        0
+      ],
+      "id": "0d6cf50f-c98c-4d5c-b6fd-4622a753b316",
+      "name": "Send a message1",
+      "webhookId": "32af2310-3465-44a6-90fd-7e562924efe6",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "AmkmT3WZ9CQ1CgS9",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 24,
+        "unit": "hours"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        896,
+        0
+      ],
+      "id": "7292511b-402f-4b67-bf94-32745cf55b72",
+      "name": "Wait",
+      "webhookId": "f59f26d0-b302-413b-aca2-ad23c538f4b2"
+    },
+    {
+      "parameters": {
+        "sendTo": "srivastavaaman.85856@gmail.com",
+        "subject": "Follow-up Reminder: Student Admission Enquiry",
+        "emailType": "text",
+        "message": "=Hello Counsellor,  This is an automatic reminder to follow up with a student who submitted an admission enquiry 24 hours ago.  Student Details:  Student Name: {{ $('On form submission').first().json[\"Student Name\"] }}  Phone Number: {{ $('On form submission').first().json[\"Phone Number \"] }}  Email: {{ $('On form submission').first().json[\"Email Address\"] }}  Course: {{ $('On form submission').first().json[\"Course Interested In\"] }}  Student Message: {{ $('On form submission').first().json[\"message\"] }}  Please contact the student and update their follow-up status.  Regards, Admission Automation System",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1120,
+        0
+      ],
+      "id": "cd885256-f417-4c1a-ba0c-b42c509eaa8f",
+      "name": "Send a message2",
+      "webhookId": "17b8b9be-12ac-4c97-ad0a-16464c7c58a2",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "AmkmT3WZ9CQ1CgS9",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message1": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Send a message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "79b6e7cf-accc-4b05-8998-ad6377a05c22",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c9d27daa8b6e3a9dd4ef6842e069c8fa2870e224a5bfe06640350b3f1b5b4108"
+  },
+  "nodeGroups": [],
+  "id": "9Axkt6X4fch5Lymu",
+  "tags": []
+}
